@@ -1,20 +1,70 @@
 import React, { useEffect, useState } from 'react'
 import { useAppContext } from '../context/AppCotext'
 import { assets, dummyAddress } from '../assets/assets';
+import toast from 'react-hot-toast';
 
 const Cart = () => {
 
-    const { products, currency, cartItems, removeFromCart, getCartCount, updateCartItem, navigate, getCartAmount } = useAppContext();
+    const { user, axios, products, currency, cartItems, removeFromCart, getCartCount, updateCartItem, navigate, getCartAmount, setCartItems } = useAppContext();
 
     const [cartArray, setCartArray] = useState([]);
-    const [addresses, setAddresses] = useState(dummyAddress);
-    const [selectAddress, setSelectAddress] = useState(dummyAddress[0]);
+    const [addresses, setAddresses] = useState([]);
+    const [selectAddress, setSelectAddress] = useState(null);
     const [paymentOption, setPaymentOption] = useState("COD");
 
     const [showAddress, setShowAddress] = React.useState(false);
     const placeOrder = async () => {
+        try{
+            if(!selectAddress) {
+                return toast.error("Please select an address");
+            }
 
+            if(paymentOption === 'COD') {
+                const {data} = await axios.post('/api/order/cod',{
+                    userId: user._id,
+                    items: cartArray.map(item => ({product: item._id , quantity: item.quantity})),
+                    address: selectAddress._id
+                })
+
+                if(data.success){
+                    toast.success(data.message);
+                    setCartItems({});
+                    navigate('/my-orders');
+                }
+                else {
+                    toast.error(data.message);
+                }
+            }
+            
+        }
+        catch (error) {
+            toast.error(error.message);
+
+        }
     }
+
+    const getAddress = async () => {
+        try {
+            const { data } = await axios.get('/api/address/get');
+
+            if (data.success) {
+                setAddresses(data.addresses);
+                if (data.addresses.length > 0)
+                    setSelectAddress(data.addresses[0])
+            }
+            else {
+                toast.error(data.message);
+            }
+        }
+        catch (error) {
+            toast.error(error.message);
+
+        }
+    }
+    useEffect(() => {
+        if (user)
+            getAddress();
+    }, [])
     const getCart = () => {
         let tempArray = [];
         for (const key in cartItems) {
@@ -59,7 +109,7 @@ const Cart = () => {
                                     <div className='flex items-center'>
                                         <p>Qty:</p>
                                         <select
-                                        onChange={e => updateCartItem(product._id, Number(e.target.value))} value={cartItems[product._id]} className='outline-none'>
+                                            onChange={e => updateCartItem(product._id, Number(e.target.value))} value={cartItems[product._id]} className='outline-none'>
                                             {Array(cartItems[product._id] > 9 ? cartItems[product._id] : 9).fill('').map((_, index) => (
                                                 <option key={index} value={index + 1}>{index + 1}</option>
                                             ))}
@@ -70,7 +120,7 @@ const Cart = () => {
                         </div>
                         <p className="text-center">{currency}{product.offerPrice * product.quantity}</p>
                         <button className="cursor-pointer mx-auto">
-                            <img onClick={() => removeFromCart()} src={assets.remove_icon} alt="" className='inline-block w-6 h-6'/>
+                            <img onClick={() => removeFromCart(product._id)} src={assets.remove_icon} alt="" className='inline-block w-6 h-6' />
                         </button>
                     </div>)
                 )}
@@ -89,27 +139,44 @@ const Cart = () => {
                 <div className="mb-6">
                     <p className="text-sm font-medium uppercase">Delivery Address</p>
                     <div className="relative flex justify-between items-start mt-2">
-                        <p className="text-gray-500">{selectAddress? `${selectAddress.street},${selectAddress.city},${selectAddress.state},${selectAddress.country}` : "NO ADDRESS FOUND"}</p>
+                        <p className="text-gray-500">{selectAddress ? `${selectAddress.street},${selectAddress.city},${selectAddress.state},${selectAddress.country}` : "NO ADDRESS FOUND"}</p>
                         <button onClick={() => setShowAddress(!showAddress)} className="text-primary hover:underline cursor-pointer">
                             Change
                         </button>
                         {showAddress && (
-                            <div className="absolute top-12 py-1 bg-white border border-gray-300 text-sm w-full">
-                                <p onClick={() => setShowAddress(false)} className="text-gray-500 p-2 hover:bg-gray-100">
-                                    New York, USA
-                                </p>
-                                <p onClick={() => setShowAddress(false)} className="text-primary text-center cursor-pointer p-2 hover:bg-primary/10">
+                            <div className="absolute top-12 py-1 bg-white border border-gray-300 text-sm w-full z-10">
+                                {addresses.map((address, index) => (
+                                    <p
+                                        key={index}
+                                        onClick={() => {
+                                            setSelectAddress(address);
+                                            setShowAddress(false);
+                                        }}
+                                        className="text-gray-500 p-2 hover:bg-gray-100 cursor-pointer"
+                                    >
+                                        {address.street}, {address.city}, {address.state}, {address.country}
+                                    </p>
+                                ))}
+
+                                <p
+                                    onClick={() => {
+                                        navigate(`/add-address`);
+                                        scrollTo(0, 0);
+                                    }}
+                                    className="text-primary text-center cursor-pointer p-2 hover:bg-primary/10"
+                                >
                                     Add address
                                 </p>
                             </div>
+
                         )}
                     </div>
 
                     <p className="text-sm font-medium uppercase mt-6">Payment Method</p>
 
-                    <select onChange={ e => setPaymentOption(e.target.value)} className="w-full border border-gray-300 bg-white px-3 py-2 mt-2 outline-none">
+                    <select onChange={e => setPaymentOption(e.target.value)} className="w-full border border-gray-300 bg-white px-3 py-2 mt-2 outline-none">
                         <option value="COD">Cash On Delivery</option>
-                        <option value="Online">Online Payment</option>
+                        {/* <option value="Online">Online Payment</option> */}
                     </select>
                 </div>
 
@@ -123,10 +190,10 @@ const Cart = () => {
                         <span>Shipping Fee</span><span className="text-green-600">Free</span>
                     </p>
                     <p className="flex justify-between">
-                        <span>Tax (2%)</span><span>{currency}{getCartAmount()*2/100}</span>
+                        <span>Tax (2%)</span><span>{currency}{getCartAmount() * 2 / 100}</span>
                     </p>
                     <p className="flex justify-between text-lg font-medium mt-3">
-                        <span>Total Amount:</span><span>{currency}{getCartAmount() + getCartAmount()*2/100}</span>
+                        <span>Total Amount:</span><span>{currency}{getCartAmount() + getCartAmount() * 2 / 100}</span>
                     </p>
                 </div>
 

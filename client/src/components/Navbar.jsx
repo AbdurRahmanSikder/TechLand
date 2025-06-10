@@ -2,13 +2,27 @@ import React, { useEffect } from 'react'
 import { assets } from '../assets/assets'
 import { NavLink } from 'react-router-dom'
 import { useAppContext } from '../context/AppCotext'
+import toast from 'react-hot-toast'
+
 const Navbar = () => {
     const [open, setOpen] = React.useState(false)
-    const { user, setUser, navigate, setShowUserLogin, searchQuery, setSearchQuery, getCartCount } = useAppContext();
-    const Logout = () => {
-        setUser(null);
-        navigate('/');
-        console.log("Logout call");
+    const { axios,user, setUser, navigate, setShowUserLogin, searchQuery, setSearchQuery, getCartCount } = useAppContext();
+    const Logout = async () => {
+        try{
+            const {data} = await axios.get('/api/user/logout');
+
+            if(data.success){
+                setUser(null);
+                navigate('/');
+                toast.success(data.message);
+            }
+            else{
+                toast.error(data.message);
+            }
+        }
+        catch(error){
+            toast.error(error.message);
+        }
     }
     useEffect(() => {
         if (searchQuery.length > 0) {

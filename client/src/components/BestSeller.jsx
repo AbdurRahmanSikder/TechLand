@@ -13,7 +13,7 @@ const BestSeller = () => {
           <ProductCard key={index} product={product} />
         ))
       }
-        <ProductCard product={products[0]} />
+        {/* <ProductCard product={products[0]} /> */}
       </div>
     </div>
   )
