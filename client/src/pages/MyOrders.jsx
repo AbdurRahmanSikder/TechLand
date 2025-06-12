@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { dummyAddress, dummyOrders } from '../assets/assets';
 import { useAppContext } from '../context/AppCotext'
 
 

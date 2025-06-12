@@ -8,8 +8,8 @@
 }
 
 :root{
-  --color-primary: #4fbf8b:
-  --color-primary-dull: #44ae7c:
+  --color-primary: #050C2E
+  --color-primary-dull: #3A3F5C
 }
 
 .no-scrollbar::-webkit-scrollbar{

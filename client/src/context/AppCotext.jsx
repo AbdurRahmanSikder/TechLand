@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import { dummyProducts } from "../assets/assets";
 import toast from "react-hot-toast";
 
 axios.defaults.withCredentials = true;
@@ -25,7 +24,6 @@ export const AppContextProvider = ({ children }) => {
             const { data } = await axios.get('/api/product/list');
             if (data.success) {
                 setProducts(data.products);
-
             }
             else toast.error(data.message);
         }

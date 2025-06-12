@@ -9,7 +9,7 @@ const BottomBanner = () => {
 
             <div className='absolute inset-0 flex flex-col items-center md:items-end md:justify-center pt-16 md:pt-0 md:pr-24'>
                 <div>
-                    <h1 className='text-2xl md:text-3xl font-semibold text-primary mb-6'>
+                    <h1 className='text-white text-2xl md:text-3xl font-semibold text-primary mb-6'>
                         Why We Are the Best?
                     </h1>
                     {
@@ -17,8 +17,8 @@ const BottomBanner = () => {
                             <div key={index} className='flex items-center gap-4 mt-2'>
                                 <img src={feature.icon} className='w-9 md:w-11' alt="" />
                                 <div>
-                                    <h3 className='text-lg md:text-xl font-semibold'>{feature.title}</h3>
-                                    <p className='text-gray-500/70 text-xs md:text-sm'>{feature.description}</p></div>
+                                    <h3 className='text-white text-lg md:text-xl font-semibold'>{feature.title}</h3>
+                                    <p className='text-gray-300 text-xs md:text-sm'>{feature.description}</p></div>
                             </div>
                         ))
                     }

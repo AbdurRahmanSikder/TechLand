@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useAppContext } from '../../context/AppCotext';
-import { assets, dummyAddress, dummyOrders } from '../../assets/assets';
+import { assets} from '../../assets/assets';
 
 
 const Orders = () => {
