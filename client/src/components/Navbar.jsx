@@ -38,7 +38,7 @@ const Navbar = () => {
                 {/* Logo */}
                 <NavLink to="/" onClick={() => setOpen(false)} className="shrink-0">
                     <img
-                        className=" h-6 md:h-8 w-auto object-contain"
+                        className=" h-4 md:h-8 w-auto object-contain"
                         src={assets.logo}
                         alt="Logo"
                     />
@@ -48,7 +48,7 @@ const Navbar = () => {
                 <div className="flex items-center text-sm gap-2 border rounded-sm px-3 bg-white w-full max-w-md flex-grow mr-4">
                     <input
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500"
+                        className="py-0 md:py-1.5 w-full bg-transparent outline-none placeholder-gray-500"
                         type="text"
                         placeholder="Search products"
                     />
@@ -102,9 +102,9 @@ const Navbar = () => {
                 <div className="absolute top-full left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden z-40 flex">
                     <NavLink to="/" onClick={() => setOpen(false)}>Home</NavLink>
                     <NavLink to="/products" onClick={() => setOpen(false)}>All products</NavLink>
-                    <NavLink to="/seller-panel" onClick={() => setOpen(false)}>Seller Panel</NavLink>
                     {user && <NavLink to="/my-orders" onClick={() => setOpen(false)}>My orders</NavLink>}
                     <NavLink to="/" onClick={() => setOpen(false)}>Contact</NavLink>
+                    <NavLink to="/seller" onClick={() => setOpen(false)}>Seller Panel</NavLink>
 
                     {!user ? (
                         <button

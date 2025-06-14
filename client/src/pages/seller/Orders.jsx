@@ -34,8 +34,8 @@ const Orders = () => {
               <div>
                 {order.items.map((item, index) => (
                   <div key={index} className="flex items-center justify-center">
-                    <div className="border border-gray-300 rounded p-2">
-                      <img src={item.product.image[0]} alt="Product" className="w-16" />
+                    <div className="border border-gray-300 rounded p-2 m-2">
+                      <img src={item.product.image[0]} alt="Product" className="w-16 object-contain" />
                     </div><p className="truncate max-w-[150px] sm:max-w-[200px] w-full overflow-hidden ml-4">
                       {item.product.name} <span className="text-primary"> x {item.quantity}</span>
                     </p>
