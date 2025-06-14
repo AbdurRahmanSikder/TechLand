@@ -29,7 +29,7 @@ const SellerLayout = () => {
         <>
             <div className="flex items-center justify-between px-4 md:px-8 border-b border-white py-3 bg-primary ">
                 <Link to="/">
-                    <img src={assets.logo} alt='logo' className='cursor-pointer w-34 md:w-38' />
+                    <img src={assets.logo} alt='logo' className='cursor-pointer w-32 md:w-48' />
                 </Link>
                 <div className="flex items-center gap-5 text-white">
                     <p>Hi! Admin</p>
