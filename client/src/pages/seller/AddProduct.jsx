@@ -11,7 +11,7 @@ const AddProduct = () => {
     const [price, setPrice] = useState('');
     const [offerPrice, setOfferPrice] = useState('');
     const [files, setFiles] = useState([]);
-    const { axios } = useAppContext();
+    const { axios,navigate } = useAppContext();
     const onSubmitHandler = async (e) => {
         e.preventDefault();
         try {
@@ -42,6 +42,7 @@ const AddProduct = () => {
             else {
                 toast.error(data.message);
             }
+            navigate('/seller');
         }
         catch (error) {
             toast.error(error.message);

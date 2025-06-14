@@ -12,7 +12,7 @@ const BestSeller = () => {
         {
           products
             .filter((product) => product.inStock)
-            .slice(0, 4)
+            .slice(0, 10)
             .map((product, index) => (
               <ProductCard key={index} product={product} />
             ))

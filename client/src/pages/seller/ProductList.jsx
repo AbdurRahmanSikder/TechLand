@@ -41,7 +41,8 @@ const ProductList = () => {
                                         <div className="border border-gray-300 rounded p-2">
                                             <img src={product.image[0]} alt="Product" className="w-16" />
                                         </div>
-                                        <span className="truncate max-sm:hidden w-full">{product.name}</span>
+                                        <span className="truncate max-w-[150px] sm:max-w-[200px] w-full overflow-hidden">{product.name}</span>
+
                                     </td>
                                     <td className="px-4 py-3">{product.category}</td>
                                     <td className="px-4 py-3 max-sm:hidden">{currency}{product.offerPrice}</td>
