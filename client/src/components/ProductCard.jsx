@@ -1,56 +1,88 @@
-import React from 'react'
+import React from 'react';
 import { assets } from '../assets/assets';
 import { useAppContext } from '../context/AppCotext';
 
 const ProductCard = ({ product }) => {
     const [count, setCount] = React.useState(0);
-    const { currency, cartItems, addToCart, updateCartItem, removeFromCart, navigate } = useAppContext();
-    return product && (
+    const {
+        currency,
+        cartItems,
+        addToCart,
+        removeFromCart,
+        navigate
+    } = useAppContext();
 
+    return product && (
         <div
-            onClick = {() => {
+            onClick={() => {
                 navigate(`/products/${product.category.toLowerCase()}/${product._id}`);
                 scrollTo(0, 0);
             }}
-    className = "border border-gray-500/20 rounded-md md:px-4 px-3 py-2 bg-white min-w-40 max-w-56 w-full" >
-            <div className="group cursor-pointer flex items-center justify-center px-2">
-                <img className="group-hover:scale-105 transition max-w-26 md:max-w-36" src={product.image[0]} alt={product.name} />
+            className="border border-gray-500/20 rounded-md md:px-4 px-3 py-2 bg-white min-w-40 max-w-56 w-full h-full flex flex-col"
+        >
+            {/* Image block (fixed height!) */}
+            <div className="group flex items-center justify-center px-2 h-[140px]">
+                <img
+                    className="group-hover:scale-105 transition h-full object-contain"
+                    src={product.image[0]}
+                    alt={product.name}
+                />
             </div>
-            <div className="text-gray-500/60 text-sm">
-                <p>{product.category}</p>
-                <p className="text-gray-700 font-medium text-lg truncate w-full">{product.name}</p>
-                <div className="flex items-center gap-0.5">
-                    {Array(5).fill('').map((_, i) => (
-                        <img key={i} className='w-3 md:w-3.5' src={i < 4 ? assets.star_icon : assets.star_dull_icon} />
-                    ))}
-                    <p>(4)</p>
-                </div>
-                <div className="flex items-end justify-between mt-3">
-                    <p className="md:text-xl text-base font-medium text-primary">
-                        {product.offerPrice}{currency}{" "} <span className="text-gray-500/60 md:text-sm text-xs line-through">{product.price}{currency}</span>
+
+            {/* Info + bottom section */}
+            <div className="text-gray-500/60 text-sm flex flex-col justify-between flex-1 mt-2">
+                <div>
+                    <p>{product.category}</p>
+                    <p className="text-gray-700 font-medium text-lg truncate w-full min-h-[48px]">
+                        {product.name}
                     </p>
-                    <div onClick={(e) => {e.stopPropagation()}} className="text-primary">
+                    <div className="flex items-center gap-0.5 mt-1">
+                        {Array(5).fill('').map((_, i) => (
+                            <img
+                                key={i}
+                                className="w-3 md:w-3.5"
+                                src={i < 4 ? assets.star_icon : assets.star_dull_icon}
+                            />
+                        ))}
+                        <p>(4)</p>
+                    </div>
+                </div>
+
+                {/* Bottom: price + button */}
+                <div className="pt-3 flex items-end justify-between">
+                    <p className="md:text-xl text-base font-medium text-primary">
+                        {product.offerPrice}{currency}
+                        {/* <span className="text-gray-500/60 md:text-sm text-xs line-through ml-1">
+                            {product.price}{currency}
+                        </span> */}
+                    </p>
+                    <div onClick={(e) => e.stopPropagation()} className="text-primary">
                         {!cartItems[product._id] ? (
-                            <button className="flex items-center justify-center gap-1 border border-primary/40 md:w-[80px] w-[64px] h-[34px] rounded text-primary font-medium" onClick={() => addToCart(product._id)} >
-                                <img src={assets.cart_icon} className='invert brightness-1'/>
+                            <button
+                                className="flex items-center justify-center gap-1 border border-primary/40 md:w-[80px] w-[64px] h-[34px] rounded text-primary font-medium"
+                                onClick={() => addToCart(product._id)}
+                            >
+                                <img src={assets.cart_icon} className="invert brightness-1" />
                                 Add
                             </button>
                         ) : (
                             <div className="flex items-center justify-center gap-2 md:w-20 w-16 h-[34px] bg-primary/25 rounded select-none">
-                                <button onClick={() => setCount(() => removeFromCart(product._id))} className="cursor-pointer text-md px-2 h-full" >
-                                    -
-                                </button>
+                                <button
+                                    onClick={() => setCount(() => removeFromCart(product._id))}
+                                    className="cursor-pointer text-md px-2 h-full"
+                                >-</button>
                                 <span className="w-5 text-center">{cartItems[product._id]}</span>
-                                <button onClick={() => setCount(() => addToCart(product._id))} className="cursor-pointer text-md px-2 h-full" >
-                                    +
-                                </button>
+                                <button
+                                    onClick={() => setCount(() => addToCart(product._id))}
+                                    className="cursor-pointer text-md px-2 h-full"
+                                >+</button>
                             </div>
                         )}
                     </div>
                 </div>
             </div>
-        </div >
+        </div>
     );
-}
+};
 
-export default ProductCard
+export default ProductCard;

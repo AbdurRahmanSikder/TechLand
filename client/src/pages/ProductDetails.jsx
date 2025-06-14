@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import ProductCard from '../components/ProductCard.jsx'
-import {useAppContext} from '../context/AppCotext';
+import { useAppContext } from '../context/AppCotext';
 import { Link, useParams } from 'react-router-dom';
 import { assets } from '../assets/assets.js';
 const ProductDetails = () => {
 
-    const {navigate,products,currency,addToCart} = useAppContext();
-    const {id} = useParams();
+    const { navigate, products, currency, addToCart } = useAppContext();
+    const { id } = useParams();
     const product = products.find((item) => item._id === id);
-    const [relatedProducts,setRelatedProducts] = useState([]);
-    const [thumbnail,setThumbnail] = useState(null);
+    const [relatedProducts, setRelatedProducts] = useState([]);
+    const [thumbnail, setThumbnail] = useState(null);
 
     useEffect(() => {
-        if(products.length > 0){
+        if (products.length > 0) {
             let productsCopy = products.slice();
-            productsCopy = productsCopy.filter((item)=>product.category === item.category)
-            setRelatedProducts(productsCopy.slice(0,5));
-            
-        }
-    },[products]);
-    
+            productsCopy = productsCopy.filter((item) => product.category === item.category)
+            setRelatedProducts(productsCopy.slice(0, 5));
 
-    useEffect(()=>{
+        }
+    }, [products]);
+
+
+    useEffect(() => {
         setThumbnail(product.image[0] ? product.image[0] : null);
-    },[product]);
+    }, [product]);
 
     return product && (
         <div className="mt-12">
@@ -36,27 +36,43 @@ const ProductDetails = () => {
 
             <div className="flex flex-col md:flex-row gap-16 mt-4">
                 <div className="flex gap-3">
+                    {/* Thumbnails */}
                     <div className="flex flex-col gap-3">
                         {product.image.map((image, index) => (
-                            <div key={index} onClick={() => setThumbnail(image)} className="border max-w-24 border-gray-500/30 rounded overflow-hidden cursor-pointer" >
-                                <img src={image} alt={`Thumbnail ${index + 1}`} />
+                            <div
+                                key={index}
+                                onClick={() => setThumbnail(image)}
+                                className={`border border-gray-300 rounded-md cursor-pointer p-1 transition hover:ring-2 hover:ring-primary ${thumbnail === image ? 'ring-2 ring-primary' : ''
+                                    }`}
+                            >
+                                <img
+                                    src={image}
+                                    alt={`Thumbnail ${index + 1}`}
+                                    className="w-20 h-20 object-contain"
+                                />
                             </div>
                         ))}
                     </div>
 
-                    <div className="border border-gray-500/30 max-w-100 rounded overflow-hidden">
-                        <img src={thumbnail} alt="Selected product" />
+                    {/* Main image */}
+                    <div className="border border-gray-300 rounded-md overflow-hidden max-w-[400px] max-h-[400px] flex items-center justify-center p-4">
+                        <img
+                            src={thumbnail}
+                            alt="Selected product"
+                            className="w-full h-full object-contain"
+                        />
                     </div>
                 </div>
+
 
                 <div className="text-sm w-full md:w-1/2">
                     <h1 className="text-3xl font-medium">{product.name}</h1>
 
                     <div className="flex items-center gap-0.5 mt-1">
                         {Array(5).fill('').map((_, i) => (
-                            <div key={i}>{i<4 ? <img src={assets.star_icon} /> :  <img src={assets.star_dull_icon} /> }</div>
+                            <div key={i}>{i < 4 ? <img src={assets.star_icon} /> : <img src={assets.star_dull_icon} />}</div>
                         ))
-                            }
+                        }
                         <p className="text-base ml-2">(4)</p>
                     </div>
 
@@ -77,7 +93,7 @@ const ProductDetails = () => {
                         <button onClick={() => addToCart(product._id)} className="w-full py-3.5 cursor-pointer font-medium bg-gray-100 text-gray-800/80 hover:bg-gray-200 transition" >
                             Add to Cart
                         </button>
-                        <button onClick={() => {addToCart(product._id); navigate('/cart');}} className="w-full py-3.5 cursor-pointer font-medium bg-primary text-white hover:bg-primary-dull transition" >
+                        <button onClick={() => { addToCart(product._id); navigate('/cart'); }} className="w-full py-3.5 cursor-pointer font-medium bg-primary text-white hover:bg-primary-dull transition" >
                             Buy now
                         </button>
                     </div>
@@ -92,14 +108,14 @@ const ProductDetails = () => {
                 <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-6 lg:grid-cols-5 mt-6 w-full'>
                     {
                         relatedProducts.filter((product) => product.inStock).map(
-                            (product,index) => (
-                                <ProductCard key={index} product={product}/>
+                            (product, index) => (
+                                <ProductCard key={index} product={product} />
                             )
                         )
                     }
                     {console.log('relatedProducts:', relatedProducts)}
                 </div>
-                <button onClick={() => {navigate('/products'),scrollTo(0,0)}} className='mx-auto cursor-pointer px-12 my-16 py-2.5 border rounded text-primary hover:bg-primary/10 transition'>See more</button>
+                <button onClick={() => { navigate('/products'), scrollTo(0, 0) }} className='mx-auto cursor-pointer px-12 my-16 py-2.5 border rounded text-primary hover:bg-primary/10 transition'>See more</button>
             </div>
         </div>
     );
