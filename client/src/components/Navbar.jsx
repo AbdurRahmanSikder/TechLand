@@ -58,9 +58,10 @@ const Navbar = () => {
 
             {/* Desktop Menu */}
             <div className="hidden lg:flex items-center gap-8 text-white ml-8">
+                <NavLink to="/seller" className="border border-gray-300 px-3 py-1 rounded-full text-xs text-gray-300">Seller Dashboard</NavLink>
                 <NavLink to="/">Home</NavLink>
                 <NavLink to="/products">All products</NavLink>
-                <NavLink to="/"  className="hidden xl:flex">Contact</NavLink>
+                <NavLink to="/" className="hidden xl:flex">Contact</NavLink>
 
                 <div onClick={() => navigate('/cart')} className="relative cursor-pointer">
                     <img src={assets.nav_cart_icon} className='w-6 invert brightness-0' />
@@ -86,7 +87,7 @@ const Navbar = () => {
             </div>
 
             {/* Mobile Icons */}
-            <div className='flex items-center gap-6 lg:hidden  sm:mt-0'>
+            <div className='flex items-center gap-6 lg:hidden sm:mt-0'>
                 <div onClick={() => navigate('/cart')} className="relative cursor-pointer">
                     <img src={assets.nav_cart_icon} className='w-6 invert brightness-0' />
                     <button className="absolute -top-2 -right-3 text-xs text-white bg-primary w-[18px] h-[18px] rounded-full">{getCartCount()}</button>
@@ -101,6 +102,7 @@ const Navbar = () => {
                 <div className="absolute top-full left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden z-40 flex">
                     <NavLink to="/" onClick={() => setOpen(false)}>Home</NavLink>
                     <NavLink to="/products" onClick={() => setOpen(false)}>All products</NavLink>
+                    <NavLink to="/seller-panel" onClick={() => setOpen(false)}>Seller Panel</NavLink>
                     {user && <NavLink to="/my-orders" onClick={() => setOpen(false)}>My orders</NavLink>}
                     <NavLink to="/" onClick={() => setOpen(false)}>Contact</NavLink>
 
@@ -125,9 +127,7 @@ const Navbar = () => {
                 </div>
             )}
         </nav>
-
     )
-
 }
 
 export default Navbar
