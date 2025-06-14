@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useAppContext } from '../../context/AppCotext';
-import { assets} from '../../assets/assets';
+import { assets } from '../../assets/assets';
 
 
 const Orders = () => {
-  const { currency, axios} = useAppContext();
+  const { currency, axios } = useAppContext();
   const [orders, setOrders] = useState([]);
   const fetchOrders = async () => {
     try {
@@ -31,11 +31,12 @@ const Orders = () => {
         {orders.map((order, index) => (
           <div key={index} className="flex flex-col md:items-center md:flex-row gap-5 justify-between p-5 max-w-4xl rounded-md border border-gray-300 text-gray-800">
             <div className="flex gap-5 max-w-80">
-              <img className="w-12 h-12 object-cover " src={assets.box_icon} alt="boxIcon" />
               <div>
                 {order.items.map((item, index) => (
-                  <div key={index} className="flex flex-col ">
-                    <p className="font-medium">
+                  <div key={index} className="flex items-center justify-center">
+                    <div className="border border-gray-300 rounded p-2">
+                      <img src={item.product.image[0]} alt="Product" className="w-16" />
+                    </div><p className="truncate max-w-[150px] sm:max-w-[200px] w-full overflow-hidden ml-4">
                       {item.product.name} <span className="text-primary"> x {item.quantity}</span>
                     </p>
                   </div>
@@ -54,7 +55,7 @@ const Orders = () => {
 
             <div className="flex flex-col text-sm md:text-base text-black/60">
               <p>Method: {order.paymentType}</p>
-              <p>Date: {new Date(order.createdAt).toLocalDateString}</p>
+              <p>Date: {new Date(order.createdAt).toLocaleDateString()}</p>
               <p>Payment: {order.isPaid ? "Paid" : "Pending"}</p>
             </div>
           </div>
