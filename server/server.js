@@ -15,7 +15,7 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 //Allow multiple origin
-const allowedOrigins = ['http://localhost:5173','https://tech-land-frontend.vercel.app']
+const allowedOrigins = ['http://localhost:5173','https://techland-ar.vercel.app']
 await mongoDB();
 await connectCloudinary();
 
