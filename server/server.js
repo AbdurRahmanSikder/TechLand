@@ -2,7 +2,7 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config'
-import mongoDB from './configs/db.js';
+import connectDB from './configs/db.js';
 import userRoute from './routes/userRoute.js';
 import sellerRoute from './routes/sellerRoute.js';
 import connectCloudinary from './configs/cloudinary.js';
@@ -16,7 +16,7 @@ const port = process.env.PORT || 4000;
 
 //Allow multiple origin
 const allowedOrigins = ['http://localhost:5173','https://techland-ar.vercel.app']
-await mongoDB();
+await connectDB();
 await connectCloudinary();
 
 //Middleware Configuration
