@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 const authSeller = async (req,res,next) => {
     try {
         const {sellerToken} = req.cookies;
-        if (!sellerToken) return res.json({ success: false, message: 'No token provided' });
+        if (!sellerToken) return res.json({ success: false, message: 'Please Login' });
 
         const tokenDecode =  jwt.verify(sellerToken, process.env.SELLER_EMAIL);
         if (tokenDecode.email)
