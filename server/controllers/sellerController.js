@@ -27,11 +27,7 @@ export const sellerLogin = async (req, res) => {
 export const isSellerAuth = async (req, res) => {
     try {
         const { email } = req.user;
-        if (typeof email === undefined) {
-            return res.json({ success: false, message: "please log in" });
-        }
-        else
-            return res.json({ success: true, email });
+        return res.json({ success: true, email });
     }
     catch (error) {
         return res.json({ success: false, message: error.message })
@@ -46,7 +42,7 @@ export const logout = async (req, res) => {
             secure: process.env.NODE_ENV === 'production',
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict'
         });
-        return res.json({ success: true, message: "Log Out" });
+        return res.json({ success: true, message: "Logout" });
     }
     catch (error) {
         return res.json({ success: false, message: error.message });
