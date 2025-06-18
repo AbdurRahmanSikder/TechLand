@@ -5,7 +5,7 @@ import { Link, NavLink, Outlet } from 'react-router-dom';
 import toast from 'react-hot-toast';
 const SellerLayout = () => {
 
-    const { setIsSeller , axios ,navigate } = useAppContext();
+    const { setIsSeller, axios, navigate } = useAppContext();
 
     const sidebarLinks = [
         { name: "Add Product", path: "/seller", icon: assets.add_icon },
@@ -16,10 +16,10 @@ const SellerLayout = () => {
     const logout = async () => {
         const { data } = await axios.get("/api/seller/logout");
 
-        if(data.success){
+        if (data.success) {
             toast.success(data.message);
-            navigate("/seller");
             setIsSeller(false);
+            navigate("/seller");
         }
         else {
             toast.error(data.message);
@@ -42,19 +42,19 @@ const SellerLayout = () => {
                 <div className="md:w-64 w-16 border-r h-[95vh] text-base border-white pt-4 flex flex-col ">
                     {sidebarLinks.map((item) => (
                         <NavLink to={item.path} key={item.name} end={item.path === '/seller'}
-                            className={({isActive}) => `flex items-center py-3 px-4 gap-3 
+                            className={({ isActive }) => `flex items-center py-3 px-4 gap-3 
                             ${isActive ? "border-r-4 md:border-r-[6px] bg-primary/10 border-primary text-primary"
                                     : "hover:bg-gray-100/90 border-white "
                                 }`
                             }
                         >
-                            <img src={item.icon} alt="" className='w-7 h-7'/>
+                            <img src={item.icon} alt="" className='w-7 h-7' />
                             <p className="md:block hidden text-center">{item.name}</p>
                         </NavLink>
                     ))}
                 </div>
                 <Outlet />
-                
+
             </div>
         </>
     );
