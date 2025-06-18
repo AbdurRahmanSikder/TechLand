@@ -6,6 +6,6 @@ import authUser from '../middlewares/authUser.js';
 userRoute.post('/register' , register);
 userRoute.post('/login' , login);
 userRoute.get('/is-auth',authUser,isAuth);
-userRoute.get('/logout',logout)
+userRoute.get('/logout',authUser,logout)
 
 export default userRoute;
