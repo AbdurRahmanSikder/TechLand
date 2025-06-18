@@ -18,32 +18,35 @@ export const sellerLogin = async (req, res) => {
         }
         else return res.json({ success: false, message: 'Invalid credentials' });
     }
-    catch(error){
-        return res.json({success:false , message: error.message});
+    catch (error) {
+        return res.json({ success: false, message: error.message });
     }
 }
 
-export const isSellerAuth = async (req,res) => {
-    try{
-        const {email} = req.user;
-        // console.log(email);
-        return res.json({success:true , email});
+export const isSellerAuth = async (req, res) => {
+    try {
+        const { email } = req.user;
+        if (typeof email === undefined) {
+            return res.json({ success: false, message: "please log in" });
+        }
+        else
+            return res.json({ success: true, email });
     }
-    catch(error){
-        return res.json({ success:false , message: error.message})
+    catch (error) {
+        return res.json({ success: false, message: error.message })
     }
 }
 
-export const logout = async (req,res) => {
-  try{
-    res.clearCookie('sellerToken', {
-        httpOnly:true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict'
-    });
-    return res.json({success:true , message: "Log Out"});
-  }
-  catch(error){
-    return res.json({success:false, message:error.message });
-  }
+export const logout = async (req, res) => {
+    try {
+        res.clearCookie('sellerToken', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict'
+        });
+        return res.json({ success: true, message: "Log Out" });
+    }
+    catch (error) {
+        return res.json({ success: false, message: error.message });
+    }
 }

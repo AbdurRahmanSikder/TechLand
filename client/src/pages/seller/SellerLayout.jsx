@@ -18,7 +18,8 @@ const SellerLayout = () => {
 
         if(data.success){
             toast.success(data.message);
-            navigate("/");
+            navigate("/seller");
+            setIsSeller(false);
         }
         else {
             toast.error(data.message);
