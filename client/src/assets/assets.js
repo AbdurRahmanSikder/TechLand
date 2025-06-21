@@ -144,12 +144,12 @@ export const features = [
   {
     icon: delivery_truck_icon,
     title: "Fastest Delivery",
-    description: "Groceries delivered in under 30 minutes.",
+    description: "Product delivered in under 2 days.",
   },
   {
     icon: coin_icon,
     title: "Affordable Prices",
-    description: "Quality groceries at unbeatable prices.",
+    description: "Quality gear at unbeatable prices.",
   },
   {
     icon: trust_icon,
