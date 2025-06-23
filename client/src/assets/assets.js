@@ -32,12 +32,13 @@ import gpu_image from "./gpu.png";
 import monitor_image from "./monitor.png";
 import speaker_image from "./speaker.png";
 import ram_image from "./ram.png";
-
+import dropdown_icon from './dropdown_icon.png'
 export const assets = {
   logo,
   search_icon,
   remove_icon,
   arrow_right_icon_colored,
+  dropdown_icon,
   star_icon,
   star_dull_icon,
   cart_icon,

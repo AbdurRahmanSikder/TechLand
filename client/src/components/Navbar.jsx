@@ -27,7 +27,6 @@ const Navbar = () => {
     useEffect(() => {
         if (searchQuery.length > 0) {
             navigate("/products");
-            console.log(searchQuery);
         }
     }, [searchQuery])
     return (
